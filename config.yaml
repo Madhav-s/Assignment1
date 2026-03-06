@@ -1,0 +1,47 @@
+experiment_name: "adult_mlp"
+
+dataset:
+  # one of: "adult", "cifar10", "pcam"
+  name: "adult"
+  adult:
+    csv_path: "data/adult/adult.csv"  # download from UCI or OpenML and save here
+    test_size: 0.2
+    val_size: 0.1
+    random_state: 42
+  cifar10:
+    root: "data/cifar10"
+    val_size: 0.1
+    random_state: 42
+  pcam:
+    root: "data/pcam"
+    split_train: "train"
+    split_val: "val"
+    split_test: "test"
+
+model:
+  # one of: "mlp", "cnn", "attention"
+  name: "mlp"
+  hidden_dims: [256, 128]
+  dropout: 0.3
+  use_batchnorm: true
+
+training:
+  batch_size: 512
+  num_epochs: 20
+  optimizer: "adam"
+  lr: 0.001
+  weight_decay: 0.0001
+  device: "cuda"  # "cuda" or "cpu"
+  num_workers: 4
+  # Use single-process DataLoader for PCam to avoid multiprocessing issues
+  num_workers_pcam: 0
+  early_stopping:
+    enabled: true
+    patience: 5
+    min_delta: 0.001
+
+logging:
+  output_dir: "outputs"
+  save_best_model: true
+  save_plots: true
+
